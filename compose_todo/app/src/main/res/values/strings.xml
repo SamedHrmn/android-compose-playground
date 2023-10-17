@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">compose_todo</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="save">Save</string>
+    <string name="task_title">Task Title</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="there_is_no_todo_yet">There is no todo yet!</string>
+</resources>
