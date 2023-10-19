@@ -49,7 +49,9 @@ import com.example.compose_todo.R
 import com.example.compose_todo.common.CategoryIconToggleButton
 import com.example.compose_todo.common.TextFieldWithTitle
 import com.example.compose_todo.common.TodoCategory
+import com.example.compose_todo.common.TodoDatePicker
 import com.example.compose_todo.common.TodoPrimaryButton
+import com.example.compose_todo.common.TodoTimePicker
 import com.example.compose_todo.data.Todos
 import com.example.compose_todo.ui.theme.TodoTheme
 import com.example.compose_todo.util.ProjectUtils.convertDateToMillis
@@ -226,97 +228,6 @@ fun AddTodoScreen(navController: NavController,todoViewModel: TodoViewModel? = n
 
         }
 
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun TodoDatePicker(
-    onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit,
-    initialSelectedDate: String
-) {
-
-    val datePickerState =
-        rememberDatePickerState(initialSelectedDateMillis = convertDateToMillis(initialSelectedDate))
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
-
-    DatePickerDialog(onDismissRequest = onDismiss, confirmButton = {
-        Button(onClick = {
-            onDateSelected(selectedDate)
-        }) {
-            Text(text = "OK")
-        }
-    }) {
-        DatePicker(state = datePickerState)
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TodoTimePicker(
-    onCancel: () -> Unit,
-    onConfirm: (String) -> Unit, initialTime: String
-) {
-    val initialHour =
-        if (initialTime.contains(":")) initialTime.split(":")[0].toInt() else LocalDateTime.now().hour
-    val initialMinute =
-        if (initialTime.contains(":")) initialTime.split(":")[1].toInt() else LocalDateTime.now().minute
-    val timePickerState =
-        rememberTimePickerState(initialHour = initialHour, initialMinute = initialMinute)
-
-    Dialog(
-        onDismissRequest = onCancel,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false
-        ),
-    ) {
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 6.dp,
-            modifier = Modifier
-                .width(IntrinsicSize.Min)
-                .height(IntrinsicSize.Min)
-                .background(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface
-                ),
-        ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
-                    text = "Select Time",
-                    style = MaterialTheme.typography.labelMedium
-                )
-                TimePicker(state = timePickerState)
-                Row(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .fillMaxWidth()
-                ) {
-
-                    Spacer(modifier = Modifier.weight(1f))
-                    TextButton(
-                        onClick = onCancel
-                    ) { Text("Cancel") }
-                    TextButton(
-                        onClick = {
-                            onConfirm(timePickerState.hour.toString() + ":" + timePickerState.minute.toString())
-                        }
-                    ) { Text("OK") }
-                }
-            }
-        }
     }
 }
 
