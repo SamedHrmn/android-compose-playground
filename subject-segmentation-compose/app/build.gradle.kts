@@ -30,6 +30,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isDefault = true
+            isMinifyEnabled = false
+            proguardFiles(
+                "proguard-rules.pro"
+            )
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -49,6 +56,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    androidResources {
+        noCompress.add("tflite")
+    }
 }
 
 dependencies {
@@ -57,6 +67,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
+    implementation ("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
